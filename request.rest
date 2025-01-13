@@ -1,6 +1,6 @@
 ###
 
-GET http://localhost:3000
+GET http://localhost:3000/about
 
 ###
 
@@ -8,4 +8,23 @@ GET http://localhost:3000/posts
 
 ###
 
+GET http://localhost:3000/posts?owner=KorinSapir2
+
+###
+
+GET http://localhost:3000/posts/67840042c7f72b413c4d795a 
+
+###
+
 POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "owner": "KorinSapir2",
+    "title": "My first post",
+    "content": "This is my first post"
+}
+
+###
+
+DELETE http://localhost:3000/posts/12345
