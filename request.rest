@@ -27,4 +27,43 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/posts/12345
+DELETE http://localhost:3000/posts/67880f1179fb7558a4f0cafb
+
+
+### comments
+
+# Create a new comment
+POST http://localhost:3000/comments
+Content-Type: application/json
+
+{
+  "postId": "67880f1179fb7558a4f0cafb",
+  "content": "This is a comment",
+  "author": "Author Name"
+}
+
+###
+
+# Get all comments
+GET http://localhost:3000/comments
+
+###
+
+# Get comments for a specific post
+GET http://localhost:3000/comments/post/67856347aeaa6d8607950bcb
+
+###
+
+# Update a comment
+PUT http://localhost:3000/comments/6786d7413d3f68a057386f79
+Content-Type: application/json
+
+{
+  "content": "Updated comment content",
+  "author": "Updated Author Name"
+}
+
+###
+
+# Delete a comment
+DELETE http://localhost:3000/comments/678804323d3f68a057386f9f
