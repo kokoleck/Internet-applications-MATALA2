@@ -1,3 +1,7 @@
+//Korin Leck-209548528
+//Sapir Indig-209139021
+
+
 require("dotenv").config();
 console.log("DB_CONNECTION:", process.env.DB_CONNECTION);
 
@@ -25,9 +29,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const postsRoutes = require("./routes/posts_routes");
 app.use("/posts", postsRoutes);
 
+// comments routes
+const commentsRoutes = require("./routes/comments_routes");
+app.use("/comments", commentsRoutes);
+
+// 
 app.get("/about", (req, res) => {
     res.send("Hello World!");
-  });  
+});  
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
