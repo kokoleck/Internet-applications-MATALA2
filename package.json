@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "tsc && node ./dist/app.js",
-"dev": "nodemon ./dist/app.js",
+    "dev": "nodemon ./dist/app.js",
     "test": "jest",
-        "testauth": " tsc && jest --detectOpenHandles --forceExit auth.test.ts",
+    "testauth": " tsc && jest --detectOpenHandles --forceExit auth.test.ts",
     "lint": "eslint . --ext .ts"
   },
   "author": "korin and sapir",
@@ -37,4 +37,6 @@
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5"
   }
+
+  
 }

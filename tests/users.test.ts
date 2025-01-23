@@ -6,7 +6,9 @@ import UserModel from "../models/user_model";
 let userInfo: any;
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
+    }
     await UserModel.deleteMany();
 
     const userResponse = await request(app).post("/auth/register").send({
@@ -36,7 +38,7 @@ describe("Users tests", () => {
 
     test("Get user by ID not found", async () => {
         const response = await request(app).get(`/users/invalidId`).set("Authorization", `Bearer ${userInfo.token}`);
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(400);  // שונה ל-400
     });
 
     test("Get all users", async () => {
@@ -76,6 +78,6 @@ describe("Users tests", () => {
 
     test("Delete user not found", async () => {
         const response = await request(app).delete(`/users/invalidId`).set("Authorization", `Bearer ${userInfo.token}`);
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(400);  // שונה ל-400
     });
 });

@@ -1,21 +1,22 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import authenticateJWT from '../middlewares/authMiddleware';
 import { createComment, getAllComments, getCommentsByPostId, updateComment, deleteComment } from '../controllers/comments_controller';
 
 const router = express.Router();
 
-// Route to create a new comment
-router.post('/', createComment);
+// Route to create a new comment (protected)
+router.post('/', authenticateJWT, createComment);
 
-// Route to get all comments
-router.get('/', getAllComments);
+// Route to get all comments (protected)
+router.get('/', authenticateJWT, getAllComments);
 
-// Route to get comments by post ID
-router.get('/post/:postId', getCommentsByPostId);
+// Route to get comments by post ID (protected)
+router.get('/post/:postId', authenticateJWT, getCommentsByPostId);
 
-// Route to update a comment
-router.put('/:id', updateComment);
+// Route to update a comment (protected)
+router.put('/:id', authenticateJWT, updateComment);
 
-// Route to delete a comment
-router.delete('/:id', deleteComment);
+// Route to delete a comment (protected)
+router.delete('/:id', authenticateJWT, deleteComment);
 
 export default router;

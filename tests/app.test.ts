@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../app";
+import { app, startServer } from "../app";  // עדכון לייבוא startServer
 import mongoose from "mongoose";
 import CommentModel from "../models/comment";
 import UserModel from "../models/user_model";
@@ -9,6 +9,7 @@ let userInfo: any;
 let postInfo: any;
 
 beforeAll(async () => {
+  await startServer();  // לוודא שהשרת מוכן לפני תחילת המבחנים
   await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
   await CommentModel.deleteMany();
   await UserModel.deleteMany();
@@ -73,5 +74,4 @@ describe("App tests", () => {
     const response = await request(app).get("/nonexistent");
     expect(response.statusCode).toBe(404);
   });
-
 });

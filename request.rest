@@ -1,21 +1,52 @@
+
+# User Authentication
+
+# Register a new user
+POST http://localhost:3000/users/register
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "password123"
+}
+
 ###
 
+# Login to get a token
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password123"
+}
+
+###
+
+### About (לא מוגן)
 GET http://localhost:3000/about
 
 ###
 
+# Get all posts (protected route)
 GET http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
+###
+
+# Get posts by owner (protected route)
+GET http://localhost:3000/posts/678b788cfeda3b9112b2f218
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
 
 ###
 
-GET http://localhost:3000/posts?owner=KorinSapir2
+# Get post by ID (protected route)
+GET http://localhost:3000/posts/678b788cfeda3b9112b2f218
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
 
 ###
 
-GET http://localhost:3000/posts/67840042c7f72b413c4d795a 
-
-###
-
+# Create a new post (protected route)
 POST http://localhost:3000/posts
 Content-Type: application/json
 
@@ -27,14 +58,20 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/posts/67880f1179fb7558a4f0cafb
+# Delete a post (protected route)
+DELETE http://localhost:3000/posts/6787fbd63d3f68a057386f8e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
 
+
+###
 
 ### comments
 
-# Create a new comment
+# Create a new comment (protected route)
 POST http://localhost:3000/comments
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
+
 
 {
   "postId": "67880f1179fb7558a4f0cafb",
@@ -44,19 +81,25 @@ Content-Type: application/json
 
 ###
 
-# Get all comments
+# Get all comments (protected route)
 GET http://localhost:3000/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
+
 
 ###
 
-# Get comments for a specific post
+# Get comments for a specific post (protected route)
 GET http://localhost:3000/comments/post/67856347aeaa6d8607950bcb
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
+
 
 ###
 
-# Update a comment
+# Update a comment (protected route)
 PUT http://localhost:3000/comments/6786d7413d3f68a057386f79
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
+
 
 {
   "content": "Updated comment content",
@@ -65,5 +108,10 @@ Content-Type: application/json
 
 ###
 
-# Delete a comment
+# Delete a comment (protected route)
 DELETE http://localhost:3000/comments/678804323d3f68a057386f9f
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkyNzk4ZTFiMDczMzkwNGVkNWRhNjEiLCJpYXQiOjE3Mzc2NTI3MDksImV4cCI6MTczNzY1NjMwOX0.glg3QfzQYwAgiiPhorB0Xi_StgTm797mawb6wRSCp6A
+
+
+###
+

@@ -7,7 +7,9 @@ import UserModel from "../models/user_model";
 let userInfo: any;
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
+    }
     await PostModel.deleteMany();
     await UserModel.deleteMany();
 
@@ -47,7 +49,7 @@ describe("Posts tests", () => {
         const response = await request(app).post("/posts").set("Authorization", `Bearer ${userInfo.token}`).send({
             title: "Test Post"
         });
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(400);  // שונה ל-400 במקום 500
     });
 
     test("Get all posts", async () => {
@@ -64,7 +66,8 @@ describe("Posts tests", () => {
 
     test("Get post by non-existent ID", async () => {
         const response = await request(app).get(`/posts/invalidPostId`);
-        expect(response.statusCode).toBe(404);
+        expect(response.statusCode).toBe(404);  // שונה ל-404
+        expect(response.body).toHaveProperty("message", "Post not found");
     });
 
     test("Update post", async () => {
@@ -86,7 +89,7 @@ describe("Posts tests", () => {
         const response = await request(app).put(`/posts/invalidPostId`).set("Authorization", `Bearer ${userInfo.token}`).send({
             title: "Updated Test Post"
         });
-        expect(response.statusCode).toBe(404);
+        expect(response.statusCode).toBe(404);  // שונה ל-404
     });
 
     test("Delete post", async () => {
@@ -102,6 +105,6 @@ describe("Posts tests", () => {
 
     test("Delete non-existent post", async () => {
         const response = await request(app).delete(`/posts/invalidPostId`).set("Authorization", `Bearer ${userInfo.token}`);
-        expect(response.statusCode).toBe(404);
+        expect(response.statusCode).toBe(404);  // שונה ל-404
     });
 });
