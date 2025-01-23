@@ -1,18 +1,19 @@
-import { Router } from "express";
-import { createPost, getAllPosts, getPostById, deletePost } from "../controllers/post"; // ודא שהפונקציות האלה מיובאות כראוי
+import { Router } from 'express';
+import authenticateJWT from '../middlewares/authMiddleware';
+import { createPost, getAllPosts, getPostById, deletePost } from '../controllers/post';
 
 const router = Router();
 
-// יצירת פוסט חדש
-router.post("/", createPost);
+// Route to create a new post (protected)
+router.post('/', authenticateJWT, createPost);
 
-// קבלת כל הפוסטים
-router.get("/", getAllPosts);
+// Route to get all posts (protected)
+router.get('/', authenticateJWT, getAllPosts);
 
-// קבלת פוסט לפי ID
-router.get("/:id", getPostById);
+// Route to get a post by ID (protected)
+router.get('/:id', authenticateJWT, getPostById);
 
-// מחיקת פוסט לפי ID
-router.delete("/:id", deletePost);
+// Route to delete a post by ID (protected)
+router.delete('/:id', authenticateJWT, deletePost);
 
-export default router; // ייצוא נכון של ה-router
+export default router;

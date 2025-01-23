@@ -9,7 +9,9 @@ let userInfo: any;
 let postInfo: any;
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
+    }
     await CommentModel.deleteMany();
     await UserModel.deleteMany();
     await PostModel.deleteMany();
@@ -73,7 +75,7 @@ describe("Comments tests", () => {
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty("error", "Invalid post ID");
     });
-    
+
     test("Get comments by valid post ID with no comments", async () => {
         const newPostResponse = await request(app).post("/posts").set("Authorization", `Bearer ${userInfo.token}`).send({
             title: "Empty Post",
@@ -87,7 +89,6 @@ describe("Comments tests", () => {
         expect(response.statusCode).toBe(404); // Expecting 404 for no comments
         expect(response.body).toHaveProperty("error", "No comments found for this post");
     });
-    
 
     test("Update comment", async () => {
         const response = await request(app).put(`/comments/${commentId}`).set("Authorization", `Bearer ${userInfo.token}`).send({

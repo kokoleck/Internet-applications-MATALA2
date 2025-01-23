@@ -4,7 +4,9 @@ import mongoose from "mongoose";
 import UserModel from "../models/user_model";
 
 beforeAll(async () => {
-    await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect(process.env.DB_URL_ENV || 'mongodb://localhost:27017/mydatabase');
+    }
     await UserModel.deleteMany();
 });
 
@@ -29,7 +31,7 @@ describe("Auth tests", () => {
             email: "testuser@example.com",
             password: "password123"
         });
-        expect(response.statusCode).toBe(409);
+        expect(response.statusCode).toBe(409);  // שונה מ-400 ל-409
         expect(response.body).toHaveProperty("message", "Email already exists");
     });
 
